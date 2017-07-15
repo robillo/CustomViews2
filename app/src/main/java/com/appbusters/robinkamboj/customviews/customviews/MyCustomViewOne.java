@@ -11,6 +11,7 @@ import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.appbusters.robinkamboj.customviews.R;
@@ -22,6 +23,7 @@ public class MyCustomViewOne extends View{
     private Paint mPaintSquare, mPaintCircle;
     private int mSquareSize;
     private int mSquareColor;
+    private float mCircleX, mCircleY, mCircleRadius = 100f;
 
     public MyCustomViewOne(Context context) {
         super(context);
@@ -80,12 +82,55 @@ public class MyCustomViewOne extends View{
         mRectSquare.right = mRectSquare.left + mSquareSize;
         mRectSquare.bottom = mRectSquare.top + mSquareSize;
 
-        float cx, cy, radius;
-        radius = 100f;
-        cx = getWidth() - radius - 50f;
-        cy = mRectSquare.top + (mRectSquare.height()/2);
+        if(mCircleX == 0f || mCircleY == 0f){
+            mCircleX = getWidth()/2;
+            mCircleY = getHeight()/2;
+        }
 
         canvas.drawRect(mRectSquare, mPaintSquare);
-        canvas.drawCircle(cx, cy, radius, mPaintCircle);
+        canvas.drawCircle(mCircleX, mCircleY, mCircleRadius, mPaintCircle);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        boolean value = super.onTouchEvent(event);
+
+        switch (event.getAction()){
+            case MotionEvent.ACTION_DOWN:{
+                float x,y;
+                x = event.getX();
+                y = event.getY();
+                if(mRectSquare.left<x && mRectSquare.right>x){
+                    if(mRectSquare.top<y && mRectSquare.bottom>y){
+                        mCircleRadius+=10f;
+                        postInvalidate();
+                    }
+                }
+
+                return true;
+            }
+            case MotionEvent.ACTION_MOVE:{
+                double dx, dy;
+                float x,y;
+                x = event.getX();
+                y = event.getY();
+
+                dx = Math.pow(x - mCircleX, 2);
+                dy = Math.pow(y - mCircleY, 2);
+                if((dx + dy) < Math.pow(mCircleRadius, 2)){
+                    //TOUCHED
+                    mCircleX = x;
+                    mCircleY = y;
+
+                    postInvalidate();
+
+                    return true;
+                }
+
+                return true;
+            }
+        }
+
+        return value;
     }
 }
