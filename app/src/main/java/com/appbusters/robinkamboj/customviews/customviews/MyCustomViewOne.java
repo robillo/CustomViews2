@@ -19,7 +19,7 @@ public class MyCustomViewOne extends View{
 
     private static final int SQUARE_SIZE = 100;
     private Rect mRectSquare;
-    private Paint mPaintSquare;
+    private Paint mPaintSquare, mPaintCircle;
     private int mSquareSize;
     private int mSquareColor;
 
@@ -53,12 +53,16 @@ public class MyCustomViewOne extends View{
     private void init(@Nullable AttributeSet set){
         mRectSquare = new Rect();
         mPaintSquare = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mPaintCircle = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mPaintCircle.setColor(Color.DKGRAY);
+
+        if(set == null)
+            return;
 
         TypedArray typedArray = getContext().obtainStyledAttributes(set, R.styleable.MyCustomViewOne);
         mSquareSize = typedArray.getDimensionPixelSize(R.styleable.MyCustomViewOne_square_size, mSquareSize);
         mSquareColor = typedArray.getColor(R.styleable.MyCustomViewOne_square_color, Color.GREEN);
         typedArray.recycle();
-
 
         mPaintSquare.setColor(mSquareColor);
     }
@@ -76,6 +80,12 @@ public class MyCustomViewOne extends View{
         mRectSquare.right = mRectSquare.left + mSquareSize;
         mRectSquare.bottom = mRectSquare.top + mSquareSize;
 
+        float cx, cy, radius;
+        radius = 100f;
+        cx = getWidth() - radius - 50f;
+        cy = mRectSquare.top + (mRectSquare.height()/2);
+
         canvas.drawRect(mRectSquare, mPaintSquare);
+        canvas.drawCircle(cx, cy, radius, mPaintCircle);
     }
 }
