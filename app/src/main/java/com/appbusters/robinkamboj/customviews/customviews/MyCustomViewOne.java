@@ -47,18 +47,17 @@ public class MyCustomViewOne extends View{
 
     private void init(@Nullable AttributeSet set){
         mRectSquare = new Rect();
-        mPaintSquare = new Paint();
+        mPaintSquare = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mPaintSquare.setColor(Color.GREEN);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
 
-        mRectSquare.left = 10;
-        mRectSquare.top = 10;
+        mRectSquare.left = 50;
+        mRectSquare.top = 50;
         mRectSquare.right = mRectSquare.left + SQUARE_SIZE;
         mRectSquare.bottom = mRectSquare.top + SQUARE_SIZE;
-
-        mPaintSquare.setColor(Color.GREEN);
 
         canvas.drawRect(mRectSquare, mPaintSquare);
     }

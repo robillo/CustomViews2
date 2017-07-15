@@ -36,4 +36,14 @@
 
     </LinearLayout>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/swap_color"
+        android:fontFamily="sans-serif-smallcaps"
+        android:layout_gravity="bottom"
+        android:background="?attr/selectableItemBackground"
+        android:id="@+id/swap"
+        android:onClick="onClick"/>
+
 </android.support.design.widget.CoordinatorLayout>
