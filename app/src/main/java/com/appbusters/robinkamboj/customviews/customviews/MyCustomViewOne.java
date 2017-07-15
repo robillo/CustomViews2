@@ -2,6 +2,7 @@ package com.appbusters.robinkamboj.customviews.customviews;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -12,11 +13,15 @@ import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.appbusters.robinkamboj.customviews.R;
+
 public class MyCustomViewOne extends View{
 
     private static final int SQUARE_SIZE = 100;
     private Rect mRectSquare;
     private Paint mPaintSquare;
+    private int mSquareSize;
+    private int mSquareColor;
 
     public MyCustomViewOne(Context context) {
         super(context);
@@ -48,11 +53,18 @@ public class MyCustomViewOne extends View{
     private void init(@Nullable AttributeSet set){
         mRectSquare = new Rect();
         mPaintSquare = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mPaintSquare.setColor(Color.GREEN);
+
+        TypedArray typedArray = getContext().obtainStyledAttributes(set, R.styleable.MyCustomViewOne);
+        mSquareSize = typedArray.getDimensionPixelSize(R.styleable.MyCustomViewOne_square_size, mSquareSize);
+        mSquareColor = typedArray.getColor(R.styleable.MyCustomViewOne_square_color, Color.GREEN);
+        typedArray.recycle();
+
+
+        mPaintSquare.setColor(mSquareColor);
     }
 
     public void swapColor(){
-        mPaintSquare.setColor(mPaintSquare.getColor() == Color.GREEN ? Color.DKGRAY : Color.GREEN);
+        mPaintSquare.setColor(mPaintSquare.getColor() == mSquareColor ? Color.DKGRAY : mSquareColor);
         postInvalidate();
     }
 
@@ -61,8 +73,8 @@ public class MyCustomViewOne extends View{
 
         mRectSquare.left = 50;
         mRectSquare.top = 50;
-        mRectSquare.right = mRectSquare.left + SQUARE_SIZE;
-        mRectSquare.bottom = mRectSquare.top + SQUARE_SIZE;
+        mRectSquare.right = mRectSquare.left + mSquareSize;
+        mRectSquare.bottom = mRectSquare.top + mSquareSize;
 
         canvas.drawRect(mRectSquare, mPaintSquare);
     }

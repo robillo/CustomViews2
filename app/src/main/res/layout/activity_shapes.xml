@@ -33,7 +33,9 @@
         <com.appbusters.robinkamboj.customviews.customviews.MyCustomViewOne
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/my_custom_view"/>
+            android:id="@+id/my_custom_view"
+            app:square_size="200sp"
+            app:square_color="#FF00FF"/>
 
     </LinearLayout>
 
