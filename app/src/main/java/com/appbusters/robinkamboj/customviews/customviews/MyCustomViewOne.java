@@ -51,6 +51,11 @@ public class MyCustomViewOne extends View{
         mPaintSquare.setColor(Color.GREEN);
     }
 
+    public void swapColor(){
+        mPaintSquare.setColor(mPaintSquare.getColor() == Color.GREEN ? Color.DKGRAY : Color.GREEN);
+        postInvalidate();
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
 
