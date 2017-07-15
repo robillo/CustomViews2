@@ -30,6 +30,10 @@
         android:layout_marginTop="?android:actionBarSize"
         android:orientation="vertical">
 
+        <com.appbusters.robinkamboj.customviews.customviews.MyCustomViewOne
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
     </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>
