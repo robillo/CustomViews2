@@ -11,8 +11,10 @@ import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.accessibility.AccessibilityEvent;
 
 import com.appbusters.robinkamboj.customviews.R;
 
@@ -24,6 +26,7 @@ public class MyCustomViewOne extends View{
     private int mSquareSize;
     private int mSquareColor;
     private float mCircleX, mCircleY, mCircleRadius = 100f;
+    boolean mDownTouch = false;
 
     public MyCustomViewOne(Context context) {
         super(context);
@@ -97,6 +100,8 @@ public class MyCustomViewOne extends View{
 
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:{
+                mDownTouch = true;    //for accessibility
+                sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_CLICKED);
                 float x,y;
                 x = event.getX();
                 y = event.getY();
@@ -107,6 +112,17 @@ public class MyCustomViewOne extends View{
                     }
                 }
 
+                return true;
+            }
+            case MotionEvent.ACTION_UP:{
+                if(mDownTouch){
+                    mDownTouch = false;
+                    performClick(); // Call this method to handle the response, and
+                    // thereby enable accessibility services to
+                    // perform this action for a user who cannot
+                    // click the touchscreen.
+                    return true;
+                }
                 return true;
             }
             case MotionEvent.ACTION_MOVE:{
@@ -130,7 +146,19 @@ public class MyCustomViewOne extends View{
                 return true;
             }
         }
-
         return value;
+    }
+
+
+
+    @Override
+    public boolean performClick() {
+        // Calls the super implementation, which generates an AccessibilityEvent
+        // and calls the onClick() listener on the view, if any
+        super.performClick();
+
+        // Handle the action for the custom click here
+
+        return true;
     }
 }
